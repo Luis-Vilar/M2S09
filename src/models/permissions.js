@@ -1,37 +1,23 @@
-const connection = require("../database/connection");
-const { STRING, INTEGER, DATE } = require("sequelize");
-const Roles = require("./roles.js");
-const { PermissionsRoles } = require("./permission_roles.js");
+const  connection  = require('../database/connection');
+const { STRING, DATE } = require('sequelize')
+const { PermissionRole } = require('./permissionRole')
+const { Role } = require('./role')
 
-const Permissions = connection.define(
-  "permissions",
-  {
-    id: {
-      type: INTEGER,
-      primaryKey: true,
-    },
+const Permission = connection.define("permission", {
     description: {
-      type: STRING,
-      validate: {
-        len: [1, 1000],
-        msg: "Descriçao deve ter entre 1 e 1000 caracteres",
-      },
-      unique: {
-        msg: "Descriçao ja cadastrada",
-      },
+        type:STRING,
+        validate:{
+            len:{args:[1,100]}
+        },
+        unique: {msg: "Permissão já existente"}
     },
-    createdAt: DATE,
-    updatedAt: DATE,
-  },
-  {
-    underscored: true,
-    paranoid: true,
-  }
-);
-Permissions.belongsToMany(Roles, {
-  through: PermissionsRoles,
-});
-Roles.belongsToMany(Permissions, {
-  through: PermissionsRoles,
-});
-module.exports = Permissions;
+    createdAt:DATE, 
+    updatedAt:DATE
+},
+{ underscored: false, paranoid: true })
+
+Permission.belongsToMany(Role, { through: PermissionRole });
+Role.belongsToMany(Permission, { through: PermissionRole });
+PermissionRole.hasMany(Permission, {foreignKey: 'id'})
+
+module.exports = { Permission }

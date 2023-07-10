@@ -1,46 +1,35 @@
-const connection = require("../database/connection");
-const { STRING, INTEGER } = require("sequelize");
-const Trainee = require("./trainee.js");
-const Roles = require("./roles.js");
-const UserRoles = require("./user_roles.js");
+const { INTEGER, STRING, DATE } = require('sequelize')
+const connection  = require('../database/connection')
+
 
 const User = connection.define("users", {
-  id: {
-    type: INTEGER,
-    primaryKey: true,
-  },
-  traineeId: {
-    type: INTEGER,
-    allowNull: false,
-    relations: {
-      model: "trainees",
-      key: "id",
+    traineeId: {
+        type: INTEGER,
+        references: {
+            model: {
+                tablename: 'trainee',
+            },
+            key: 'id'
+        },
+        allowNull: true
     },
-    validate: {
-      notNull: {
-        msg: "O campo traineeId não pode ser nulo",
-      },
-      notEmpty: {
-        msg: "O campo traineeId não pode ser vazio",
-      },
+    name: STRING,
+    email: {
+        type: STRING,
+        validate:{
+            isEmail: {msg: "Email Invalido"}
+        },
+        unique: {msg: "Email já existe"}
     },
-  },
-  name: STRING,
-  email: STRING,
-  password: STRING,
-},{
-    timestamps: false,
-});
-User.belongsTo(Trainee, {
-    foreignKey: "traineeId",
-    as: "trainee",
-  });
-User.belongsToMany(Roles, {
-  through: UserRoles,
+    password: {
+        type: STRING,
+        validate:{
+            len:{args:[1,100], msg: "Senha precisa ter entre 5 a 10 char."}
+        
+        }
+    },
+    createdAt: DATE,
+    updatedAt: DATE
+})
 
-});
-Roles.belongsToMany(User, {
-  through:UserRoles,
-});
-
-module.exports = User;
+module.exports = { User }
