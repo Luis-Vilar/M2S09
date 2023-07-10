@@ -1,6 +1,7 @@
 // dependencias
 const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
 
 // classe server
 class Server {
@@ -12,8 +13,8 @@ class Server {
     this.initializeServer(app);
   }
   // middlewares
-  async middlewares(app) {
- 
+  async middlewares(app) { 
+    app.use(morgan("dev"))
     app.use(cors());
     app.use(express.json());
   }

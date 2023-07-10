@@ -1,8 +1,4 @@
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const { config } = require("dotenv");
-const JWT_SECRET = process.env.JWT_SECRET;
-config();
 
 class UserController {
   async index(req, res) {

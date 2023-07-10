@@ -20,7 +20,7 @@ module.exports = {
         return res.status(401).json({ message: "Senha incorreta " });
       }
     } catch (error) {
-      return res.status(500).json({ message: `Error interno do servidor` });
+      return res.status(500).json({ message: `Error interno do servidor ${error}` });
     }
     next();
   },
@@ -35,8 +35,8 @@ module.exports = {
       if (err) {
         return res.status(401).json({ message: "Invalid token" });
       } else {
-        console.log(`token decodificado: ${decoded}`);
         req.decoded = decoded;
+        console.log(`token decodificado: ${{decoded}}`);
         next();
       }
     });
