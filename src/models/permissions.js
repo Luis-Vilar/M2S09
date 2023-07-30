@@ -9,7 +9,6 @@ const Permission = connection.define("permission", {
         validate:{
             len:{args:[1,100]}
         },
-        unique: {msg: "Permissão já existente"}
     },
     createdAt:DATE, 
     updatedAt:DATE

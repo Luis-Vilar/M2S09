@@ -9,7 +9,7 @@ module.exports = {
       description: { type: Sequelize.STRING, allowNull: false },
       createdAt: { type: Sequelize.DATE, allowNull: false },
       updatedAt: { type: Sequelize.DATE, allowNull: false },
-      deleteAt: { type: Sequelize.DATE, allowNull: true },
+      deletedAt: { type: Sequelize.DATE, allowNull: true },
     },{
       paranoid: true,
       underscored: true,

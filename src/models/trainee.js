@@ -5,12 +5,9 @@ const { STRING, DATE, BOOLEAN, INTEGER } = require("sequelize");
 const Trainee = connection.define(
   "trainees",
   {
-    id: {
-      type: INTEGER,
-      primaryKey: true,
-    },
+
     name: STRING,
-    email : STRING,
+    email: STRING,
     rg: {
       type: STRING,
       validate: {

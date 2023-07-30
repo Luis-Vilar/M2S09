@@ -146,7 +146,7 @@ class RBAC {
 
             return response.status(201).send({message: "Função atribuida ao usuário com sucesso!"})
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
             return response.status(400).send({ message: "A Função não pôde ser atribuida!" })
         }
     }

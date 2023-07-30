@@ -30,6 +30,6 @@ const User = connection.define("users", {
     },
     createdAt: DATE,
     updatedAt: DATE
-})
+},{underscored: false})
 
 module.exports = { User }

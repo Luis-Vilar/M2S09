@@ -1,4 +1,4 @@
-const  connection  = require('../database/connection');
+const connection = require('../database/connection');
 const { STRING, DATE } = require('sequelize')
 const { User } = require('./user')
 // const { Permission } = require('./permission')
@@ -7,18 +7,24 @@ const { UserRole } = require('./userRole')
 
 const Role = connection.define("role", {
     description: {
-        type:STRING,
-        validate:{
-            len:{args:[1,100]}
+        type: STRING,
+        validate: {
+            len: { args: [1, 100] }
         },
-        unique: {msg: "Permissão já existente"}
+        unique: { msg: "Permissão já existente" }
     },
-    createdAt:DATE, //Sequelize traduz para SnakeCase
-    updatedAt:DATE
-})
+    createdAt: DATE, //Sequelize traduz para SnakeCase
+    updatedAt: DATE
+},
+    {
+        underscored: false
+    }
+
+)
 
 User.belongsToMany(Role, { through: UserRole });
 Role.belongsToMany(User, { through: UserRole });
+UserRole.hasMany(User, { foreignKey: 'traineeId' });
 
 /*
 Role.belongsToMany(Permission, {

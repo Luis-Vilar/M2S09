@@ -1,6 +1,6 @@
 const Trainee = require("../models/trainee");
 
-function validateBody(body, res) {
+async function validateBody(body, res) {
   const {
     name,
     email,
@@ -27,9 +27,9 @@ function validateBody(body, res) {
     have_special_needs === null ||
     have_special_needs === undefined
   ) {
-    return res
-      .status(400)
-      .json({ error: "Dados Preencha todos os dados corretamente..." });
+    res.status(400)
+    throw new Error("Campos obrigatórios não preenchidos");
+
   }
 }
 
@@ -46,7 +46,8 @@ async function validateCpfAndRg(cpf, rg, res) {
   });
 
   if (cpfExist || rgExist) {
-    return res.status(400).json({ error: "CPF ou RG já cadastrados" });
+     res.status(400);
+    throw new Error("Cpf ou Rg já cadastrado");
   }
 }
 
@@ -63,24 +64,23 @@ module.exports = {
   async store(req, res) {
     const body = req.body;
 
-    validateBody(body, res);
-
-    const {
-      name,
-      email,
-      rg,
-      cpf,
-      primary_phone_contact,
-      secondary_phone_contact,
-      date_birth,
-      father_name,
-      mother_name,
-      have_special_needs,
-    } = req.body;
-
-    await validateCpfAndRg(cpf, rg, res);
-
     try {
+      await validateBody(body, res);
+
+      const {
+        name,
+        email,
+        rg,
+        cpf,
+        primary_phone_contact,
+        secondary_phone_contact,
+        date_birth,
+        father_name,
+        mother_name,
+        have_special_needs,
+      } = req.body;
+
+      await validateCpfAndRg(cpf, rg, res);
       const trainee = await Trainee.create({
         name,
         email,
@@ -99,7 +99,7 @@ module.exports = {
         .status(201)
         .send({ message: "Usuario cadastrado ..", trainee });
     } catch (error) {
-      console.log(error);
+      res.json({ error: error.message });
     }
   },
   async update(req, res) {

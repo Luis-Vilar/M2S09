@@ -13,7 +13,7 @@ class userRouter {
   routes() {
     this.router.get("/users/index", checkToken, hasPermission(['index']) ,index);
     this.router.get("/users/show/:id", checkToken,hasPermission(['show']), show);
-    this.router.post("/users/store", checkToken, hasPermission(['store']), store);
+    this.router.post("/users/store", store);
     this.router.post("/users/login", loginUser);
   }
 }
