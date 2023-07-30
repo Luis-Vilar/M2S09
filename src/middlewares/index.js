@@ -1,5 +1,7 @@
-const auth = require("./v1/auth");
+const {checkToken} = require("./v1/auth");
+const {hasPermission} = require("./v1/hasPermission");
 
 module.exports = {
-    auth,
+    checkToken,
+    hasPermission
 };

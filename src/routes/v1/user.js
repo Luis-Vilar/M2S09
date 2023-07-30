@@ -1,8 +1,8 @@
 const { index, show, store } = require("../../controllers/user");
 const { Router } = require("express");
-const { checkToken } = require("../../middlewares/index").auth;
+const { checkToken } = require("../../middlewares/index");
 const { loginUser } = require("../../controllers/user");
-const { hasPermission } = require("../../middlewares/v1/hasPermission");
+const { hasPermission } = require("../../middlewares/index");
 
 class userRouter {
   constructor() {
